@@ -64,13 +64,14 @@ class DBHelper(context: Context?) :
         cursor.close()
         return result
     }
-    fun addTask(title: String) {
+    fun addTask(title: String): Long {
         val database = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_TITLE, title)
         // свежедобавленный ID
         val id = database.insert(TABLE_NAME, null, contentValues)
         close()
+        return id
     }
 
     fun addTask(id: Int, title: String) {
@@ -81,7 +82,7 @@ class DBHelper(context: Context?) :
         close()
     }
 
-    fun deleteTask(id: Int) {
+    fun deleteTask(id: Long) {
         val database = this.writableDatabase
         database.delete(TABLE_NAME, "$KEY_ID = ?", arrayOf(id.toString()))
         close()
